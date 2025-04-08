@@ -1,0 +1,35 @@
+# .github/workflows/reusable-ci.yml
+
+name: Reusable CI
+
+on:
+  workflow_call:
+    inputs:
+      pr_number:
+        required: true
+        type: string
+    secrets:
+      OPENAI_KEY:
+        required: true
+
+  workflow_dispatch:  # ← 追加：手動実行用
+    inputs:
+      pr_number:
+        description: 'PR番号'
+        required: true
+        type: string
+
+jobs:
+  qodo-merge:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+      contents: write
+    steps:
+      - name: Run Qodo Merge
+        uses: qodo-ai/pr-agent@main
+        env:
+          OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
