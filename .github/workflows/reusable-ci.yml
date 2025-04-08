@@ -1,9 +1,21 @@
+# .github/workflows/reusable-ci.yml
+
 name: Reusable CI
 
 on:
   workflow_call:
     inputs:
       pr_number:
+        required: true
+        type: string
+    secrets:
+      OPENAI_KEY:
+        required: true
+
+  workflow_dispatch:  # ← 追加：手動実行用
+    inputs:
+      pr_number:
+        description: 'PR番号'
         required: true
         type: string
 
@@ -20,3 +32,4 @@ jobs:
         env:
           OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
