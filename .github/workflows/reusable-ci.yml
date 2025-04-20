@@ -1,5 +1,3 @@
-# .github/workflows/reusable-ci.yml
-
 name: Reusable CI
 
 on:
@@ -8,14 +6,28 @@ on:
       pr_number:
         required: true
         type: string
+      command:
+        required: true
+        type: string
+      target_repo:
+        required: true
+        type: string
     secrets:
       OPENAI_KEY:
         required: true
 
-  workflow_dispatch:  # ← 追加：手動実行用
+  workflow_dispatch:  # 手動実行用
     inputs:
       pr_number:
         description: 'PR番号'
+        required: true
+        type: string
+      command:
+        description: '実行するコマンド（例: /review）'
+        required: true
+        type: string
+      target_repo:
+        description: '対象リポジトリ（owner/repo）'
         required: true
         type: string
 
@@ -32,4 +44,6 @@ jobs:
         env:
           OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+          PR_REVIEW_COMMAND: ${{ inputs.command }}
+          GITHUB_REPOSITORY: ${{ inputs.target_repo }}
+          PR_NUMBER: ${{ inputs.pr_number }}
