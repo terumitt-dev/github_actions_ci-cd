@@ -39,8 +39,13 @@ jobs:
       pull-requests: write
       contents: write
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
       - name: Run Qodo Merge
         uses: qodo-ai/pr-agent@main
+        with:
+          config-path: .pr-agent/config.json  # ← 日本語対応設定を追加
         env:
           OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
