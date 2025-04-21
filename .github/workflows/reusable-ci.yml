@@ -16,7 +16,7 @@ on:
       OPENAI_KEY:
         required: true
 
-  workflow_dispatch:  # 手動実行用
+  workflow_dispatch:
     inputs:
       pr_number:
         description: 'PR番号'
@@ -44,8 +44,6 @@ jobs:
 
       - name: Run Qodo Merge
         uses: qodo-ai/pr-agent@main
-        with:
-          config-path: .pr-agent/config.json  # ← 日本語対応設定を追加
         env:
           OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
